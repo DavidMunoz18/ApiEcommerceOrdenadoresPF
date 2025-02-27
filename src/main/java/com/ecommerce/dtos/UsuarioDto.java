@@ -1,5 +1,9 @@
 package com.ecommerce.dtos;
 
+/**
+ * Esta clase es un DTO (Data Transfer Object) que representa los datos de un usuario en el sistema.
+ * Se utiliza para transferir información sobre un usuario entre diferentes capas de la aplicación.
+ */
 public class UsuarioDto {
 
     private long idUsuario;
@@ -12,60 +16,125 @@ public class UsuarioDto {
     // Constructores, Getters y Setters
     // ===========================
 
+    /**
+     * Constructor por defecto. Crea un objeto UsuarioDto vacío.
+     */
     public UsuarioDto() {}
 
+    /**
+     * Constructor con parámetros para inicializar un UsuarioDto con los valores proporcionados.
+     * 
+     * @param idUsuario El ID del usuario.
+     * @param nombreUsuario El nombre del usuario.
+     * @param telefonoUsuario El teléfono del usuario.
+     * @param emailUsuario El correo electrónico del usuario.
+     * @param rol El rol del usuario.
+     */
     public UsuarioDto(long idUsuario, String nombreUsuario, String telefonoUsuario, String emailUsuario, String rol) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.telefonoUsuario = telefonoUsuario;
         this.emailUsuario = emailUsuario;
         this.rol = rol;
-       
     }
 
     // Getters y Setters
 
+    /**
+     * Obtiene el ID del usuario.
+     * 
+     * @return El ID del usuario.
+     */
     public long getIdUsuario() {
         return idUsuario;
     }
 
+    /**
+     * Establece el ID del usuario.
+     * 
+     * @param idUsuario El ID del usuario.
+     */
     public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
+    /**
+     * Obtiene el nombre del usuario.
+     * 
+     * @return El nombre del usuario.
+     */
     public String getNombreUsuario() {
         return nombreUsuario;
     }
 
+    /**
+     * Establece el nombre del usuario.
+     * 
+     * @param nombreUsuario El nombre del usuario.
+     */
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
 
+    /**
+     * Obtiene el teléfono del usuario.
+     * 
+     * @return El teléfono del usuario.
+     */
     public String getTelefonoUsuario() {
         return telefonoUsuario;
     }
 
+    /**
+     * Establece el teléfono del usuario.
+     * 
+     * @param telefonoUsuario El teléfono del usuario.
+     */
     public void setTelefonoUsuario(String telefonoUsuario) {
         this.telefonoUsuario = telefonoUsuario;
     }
 
+    /**
+     * Obtiene el correo electrónico del usuario.
+     * 
+     * @return El correo electrónico del usuario.
+     */
     public String getEmailUsuario() {
         return emailUsuario;
     }
 
+    /**
+     * Establece el correo electrónico del usuario.
+     * 
+     * @param emailUsuario El correo electrónico del usuario.
+     */
     public void setEmailUsuario(String emailUsuario) {
         this.emailUsuario = emailUsuario;
     }
 
+    /**
+     * Obtiene el rol del usuario.
+     * 
+     * @return El rol del usuario.
+     */
     public String getRol() {
         return rol;
     }
 
+    /**
+     * Establece el rol del usuario.
+     * 
+     * @param rol El rol del usuario.
+     */
     public void setRol(String rol) {
         this.rol = rol;
     }
 
-  
+    /**
+     * Devuelve una representación en cadena del objeto UsuarioDto.
+     * 
+     * @return Una cadena que representa los datos del usuario.
+     */
     @Override
     public String toString() {
         return "UsuarioDto{" +
@@ -77,4 +146,3 @@ public class UsuarioDto {
                 '}';
     }
 }
-

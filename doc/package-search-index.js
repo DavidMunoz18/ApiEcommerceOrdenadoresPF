@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.ecommerce"},{"l":"com.ecommerce.configuracion"},{"l":"com.ecommerce.controladores"},{"l":"com.ecommerce.daos"},{"l":"com.ecommerce.dtos"},{"l":"com.ecommerce.repositorios"},{"l":"com.ecommerce.servicios"},{"l":"com.ecommerce.utilidades"}];updateSearchResults();

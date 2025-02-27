@@ -1,0 +1,8 @@
+com.ecommerce
+com.ecommerce.configuracion
+com.ecommerce.controladores
+com.ecommerce.daos
+com.ecommerce.dtos
+com.ecommerce.repositorios
+com.ecommerce.servicios
+com.ecommerce.utilidades
