@@ -117,4 +117,20 @@ public class CarritoControlador {
             throw e;
         }
     }
+    /**
+     * Limpia todos los productos del carrito.
+     *
+     * @return ResponseEntity con un mensaje indicando el resultado de la operación.
+     */
+    @DeleteMapping("/limpiar")
+    public ResponseEntity<String> limpiarCarrito() {
+        Utilidades.escribirLog("[INFO]", "CarritoControlador", "limpiarCarrito", "Iniciando ejecución");
+        try {
+            carritoServicio.limpiarCarrito(); // Se llama al método del servicio que limpia el carrito
+            return ResponseEntity.ok("Carrito limpiado correctamente.");
+        } catch(Exception e) {
+            Utilidades.escribirLog("[ERROR]", "CarritoControlador", "limpiarCarrito", "Error: " + e.getMessage());
+            throw e;
+        }
+    }
 }

@@ -84,4 +84,18 @@ public class CarritoServicio {
             throw e;
         }
     }
+    
+    /**
+    * Limpia todos los productos del carrito.
+    */
+   public void limpiarCarrito() {
+       Utilidades.escribirLog("[INFO]", "CarritoServicio", "limpiarCarrito", "Iniciando ejecución");
+       try {
+           carrito.clear(); // Elimina todos los elementos de la lista que simula el carrito
+           Utilidades.escribirLog("[INFO]", "CarritoServicio", "limpiarCarrito", "Carrito limpiado");
+       } catch(Exception e) {
+           Utilidades.escribirLog("[ERROR]", "CarritoServicio", "limpiarCarrito", "Error: " + e.getMessage());
+           throw e;
+       }
+   }
 }
