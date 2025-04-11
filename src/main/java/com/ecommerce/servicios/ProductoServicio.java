@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ecommerce.daos.MarcaDao;
 import com.ecommerce.daos.ProductoDao;
+import com.ecommerce.dtos.MarcaDto;
 import com.ecommerce.dtos.ProductoDto;
+import com.ecommerce.repositorios.MarcaRepository;
 import com.ecommerce.repositorios.ProductoRepository;
 import com.ecommerce.utilidades.Utilidades;
 
@@ -17,6 +20,8 @@ public class ProductoServicio {
 
     @Autowired
     private ProductoRepository productoRepository;
+    @Autowired
+    private MarcaRepository marcaRepository; 
 
     /**
      * Obtiene todos los productos y los convierte a ProductoDto.
@@ -110,7 +115,6 @@ public class ProductoServicio {
         return true;
     }
 
-    // Métodos privados de conversión (se mantienen sin cambios)
     private ProductoDto convertirADto(ProductoDao productoDao) {
         if (productoDao == null) {
             return null;
@@ -122,9 +126,20 @@ public class ProductoServicio {
                 productoDao.getPrecioProducto(),
                 productoDao.getFotoProducto(),
                 productoDao.getStockProducto(),
-                productoDao.getCategoriaProducto()
+                productoDao.getCategoriaProducto(), 
+                convertirAMarcaDto(productoDao.getMarca())  // Conversión de MarcaDao a MarcaDto
         );
     }
+
+    private MarcaDto convertirAMarcaDto(MarcaDao marcaDao) {
+        if (marcaDao == null) {
+            return null;
+        }
+        return new MarcaDto(marcaDao.getIdMarca(), marcaDao.getNombreMarca(), marcaDao.getPaisOrigen(), marcaDao.getAnioFundacion(), marcaDao.getDescripcion());
+    }
+
+
+    
 
     private ProductoDao convertirADao(ProductoDto productoDto) {
         if (productoDto == null) {
@@ -140,6 +155,18 @@ public class ProductoServicio {
         productoDao.setFotoProducto(productoDto.getImagen());
         productoDao.setStockProducto(productoDto.getStock());
         productoDao.setCategoriaProducto(productoDto.getCategoria());
+        
+        // Asignar la marca
+        if (productoDto.getMarca() != null) {
+            // Se carga la marca persistente usando el id del DTO.
+            MarcaDao marca = marcaRepository.findById(productoDto.getMarca().getId())
+                .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+            productoDao.setMarca(marca);
+        } else {
+            // Si la marca viene como null, se podría lanzar un error o manejarlo según la lógica de negocio.
+            throw new RuntimeException("La marca es obligatoria");
+        }
         return productoDao;
     }
+
 }

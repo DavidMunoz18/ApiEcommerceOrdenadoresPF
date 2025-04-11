@@ -40,40 +40,48 @@ public class ProductoDto {
      * Categoría del producto.
      * Este campo permite clasificar el producto en una categoría específica.
      */
-    private String categoria;  // Nuevo campo para la categoría
+    private String categoria;
+
+    /**
+     * Marca del producto.
+     * Relación con la clase MarcaDto, que representa la marca a la que pertenece el producto.
+     */
+    private MarcaDto marca;
 
     /**
      * Constructor vacío de la clase ProductoDto.
-     * Este constructor es necesario para algunas bibliotecas de serialización/deserialización.
+     * Necesario para la serialización/deserialización de datos.
      */
     public ProductoDto() {
     }
 
     /**
-     * Constructor de la clase ProductoDto con todos los campos, incluyendo la categoría.
+     * Constructor de la clase ProductoDto con todos los campos.
      * 
-     * @param id el identificador del producto
-     * @param nombre el nombre del producto
-     * @param descripcion la descripción del producto
-     * @param precio el precio del producto
-     * @param imagen la imagen del producto en formato de arreglo de bytes
-     * @param stock la cantidad de producto disponible en stock
-     * @param categoria la categoría del producto
+     * @param id el identificador del producto.
+     * @param nombre el nombre del producto.
+     * @param descripcion la descripción del producto.
+     * @param precio el precio del producto.
+     * @param imagen la imagen del producto en formato de arreglo de bytes.
+     * @param stock la cantidad de producto disponible en stock.
+     * @param categoria la categoría del producto.
+     * @param marca la marca a la que pertenece el producto.
      */
-    public ProductoDto(Long id, String nombre, String descripcion, double precio, byte[] imagen, int stock, String categoria) {
+    public ProductoDto(Long id, String nombre, String descripcion, double precio, byte[] imagen, int stock, String categoria, MarcaDto marca) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.imagen = imagen;
         this.stock = stock;
-        this.categoria = categoria;  // Asignación de la categoría
+        this.categoria = categoria;
+        this.marca = marca;
     }
 
     /**
      * Obtiene el identificador del producto.
      * 
-     * @return el identificador del producto
+     * @return el identificador del producto.
      */
     public Long getId() {
         return id;
@@ -82,7 +90,7 @@ public class ProductoDto {
     /**
      * Establece el identificador del producto.
      * 
-     * @param id el identificador del producto
+     * @param id el identificador del producto.
      */
     public void setId(Long id) {
         this.id = id;
@@ -91,7 +99,7 @@ public class ProductoDto {
     /**
      * Obtiene el nombre del producto.
      * 
-     * @return el nombre del producto
+     * @return el nombre del producto.
      */
     public String getNombre() {
         return nombre;
@@ -100,7 +108,7 @@ public class ProductoDto {
     /**
      * Establece el nombre del producto.
      * 
-     * @param nombre el nombre del producto
+     * @param nombre el nombre del producto.
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -109,7 +117,7 @@ public class ProductoDto {
     /**
      * Obtiene la descripción del producto.
      * 
-     * @return la descripción del producto
+     * @return la descripción del producto.
      */
     public String getDescripcion() {
         return descripcion;
@@ -118,7 +126,7 @@ public class ProductoDto {
     /**
      * Establece la descripción del producto.
      * 
-     * @param descripcion la descripción del producto
+     * @param descripcion la descripción del producto.
      */
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -127,7 +135,7 @@ public class ProductoDto {
     /**
      * Obtiene el precio del producto.
      * 
-     * @return el precio del producto
+     * @return el precio del producto.
      */
     public double getPrecio() {
         return precio;
@@ -136,7 +144,7 @@ public class ProductoDto {
     /**
      * Establece el precio del producto.
      * 
-     * @param precio el precio del producto
+     * @param precio el precio del producto.
      */
     public void setPrecio(double precio) {
         this.precio = precio;
@@ -145,7 +153,7 @@ public class ProductoDto {
     /**
      * Obtiene la imagen del producto en formato de arreglo de bytes.
      * 
-     * @return la imagen del producto
+     * @return la imagen del producto.
      */
     public byte[] getImagen() {
         return imagen;
@@ -154,7 +162,7 @@ public class ProductoDto {
     /**
      * Establece la imagen del producto.
      * 
-     * @param imagen la imagen del producto
+     * @param imagen la imagen del producto.
      */
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
@@ -163,7 +171,7 @@ public class ProductoDto {
     /**
      * Obtiene la cantidad de producto disponible en stock.
      * 
-     * @return la cantidad en stock del producto
+     * @return la cantidad en stock del producto.
      */
     public int getStock() {
         return stock;
@@ -172,7 +180,7 @@ public class ProductoDto {
     /**
      * Establece la cantidad de producto disponible en stock.
      * 
-     * @param stock la cantidad en stock del producto
+     * @param stock la cantidad en stock del producto.
      */
     public void setStock(int stock) {
         this.stock = stock;
@@ -181,7 +189,7 @@ public class ProductoDto {
     /**
      * Obtiene la categoría del producto.
      * 
-     * @return la categoría del producto
+     * @return la categoría del producto.
      */
     public String getCategoria() {
         return categoria;
@@ -190,9 +198,27 @@ public class ProductoDto {
     /**
      * Establece la categoría del producto.
      * 
-     * @param categoria la categoría del producto
+     * @param categoria la categoría del producto.
      */
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    /**
+     * Obtiene la marca del producto.
+     * 
+     * @return la marca del producto.
+     */
+    public MarcaDto getMarca() {
+        return marca;
+    }
+
+    /**
+     * Establece la marca del producto.
+     * 
+     * @param marca la marca del producto.
+     */
+    public void setMarca(MarcaDto marca) {
+        this.marca = marca;
     }
 }

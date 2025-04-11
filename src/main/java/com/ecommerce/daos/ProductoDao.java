@@ -1,7 +1,17 @@
 package com.ecommerce.daos;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 /**
  * Clase que representa la entidad Producto en la base de datos.
@@ -68,6 +78,11 @@ public class ProductoDao {
      */
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PedidoProductoDao> pedidosProductos;
+
+    
+    @ManyToOne
+    @JoinColumn(name = "id_marca", nullable = false)
+    private MarcaDao marca;
 
     /**
      * Relación uno a muchos con la entidad ReseniaDao.
@@ -241,12 +256,21 @@ public class ProductoDao {
     public void setCategoriaProducto(String categoriaProducto) {
         this.categoriaProducto = categoriaProducto;
     }
+    public MarcaDao getMarca() {
+  		return marca;
+  	}
+
+  	public void setMarca(MarcaDao marca) {
+  		this.marca = marca;
+  	}
 
     // ===========================
     // Constructores
     // ===========================
 
-    /**
+  
+
+	/**
      * Constructor vacío de la clase ProductoDao.
      */
     public ProductoDao() {
