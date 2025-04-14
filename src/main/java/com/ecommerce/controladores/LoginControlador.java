@@ -67,4 +67,6 @@ public class LoginControlador {
             return ResponseEntity.status(500).body("Error interno al obtener los datos del usuario");
         }
     }
+    
+    
 }

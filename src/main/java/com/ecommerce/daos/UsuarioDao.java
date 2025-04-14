@@ -1,7 +1,6 @@
 package com.ecommerce.daos;
 
 import jakarta.persistence.*;
-
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
@@ -70,6 +69,12 @@ public class UsuarioDao {
      */
     @Column(name = "fecha_expiracion_token")
     private Date fechaExpiracionToken;
+    
+    /**
+     * Indica si el usuario se registró a través de Google.
+     */
+    @Column(name = "es_google", nullable = false)
+    private boolean esGoogle;
 
     /**
      * Relación Uno a Muchos con Pedidos.
@@ -89,6 +94,9 @@ public class UsuarioDao {
     // Constructores, Getters y Setters
     // ============================
 
+    /**
+     * Constructor vacío.
+     */
     public UsuarioDao() {}
 
     /**
@@ -103,12 +111,13 @@ public class UsuarioDao {
      * @param rol El rol del usuario.
      * @param tokenUsuario El token de recuperación de contraseña del usuario.
      * @param fechaExpiracionToken La fecha de expiración del token de recuperación.
+     * @param esGoogle Indica si el usuario se registró mediante Google.
      * @param pedidos Los pedidos realizados por el usuario.
      * @param resenias Las reseñas realizadas por el usuario.
      */
     public UsuarioDao(long idUsuario, String nombreUsuario, String telefonoUsuario, byte[] fotoUsuario,
-                      String emailUsuario, String passwordUsuario, String rol, String tokenUsuario, Date fechaExpiracionToken,
-                      List<PedidoDao> pedidos, List<ReseniaDao> resenias) {
+                      String emailUsuario, String passwordUsuario, String rol, String tokenUsuario, 
+                      Date fechaExpiracionToken, boolean esGoogle, List<PedidoDao> pedidos, List<ReseniaDao> resenias) {
         super();
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
@@ -119,11 +128,12 @@ public class UsuarioDao {
         this.rol = rol;
         this.tokenUsuario = tokenUsuario;
         this.fechaExpiracionToken = fechaExpiracionToken;
+        this.esGoogle = esGoogle;
         this.pedidos = pedidos;
         this.resenias = resenias;
     }
 
-    // Getters y Setters para todos los campos, incluyendo listas
+    // Getters y Setters para todos los campos, incluyendo listas y el nuevo campo esGoogle
 
     public long getIdUsuario() {
         return idUsuario;
@@ -181,22 +191,6 @@ public class UsuarioDao {
         this.rol = rol;
     }
 
-    public List<PedidoDao> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<PedidoDao> pedidos) {
-        this.pedidos = pedidos;
-    }
-
-    public List<ReseniaDao> getReseñas() {
-        return resenias;
-    }
-
-    public void setReseñas(List<ReseniaDao> resenias) {
-        this.resenias = resenias;
-    }
-
     public String getTokenUsuario() {
         return tokenUsuario;
     }
@@ -213,6 +207,22 @@ public class UsuarioDao {
         this.fechaExpiracionToken = fechaExpiracionToken;
     }
 
+    public boolean isEsGoogle() {
+        return esGoogle;
+    }
+
+    public void setEsGoogle(boolean esGoogle) {
+        this.esGoogle = esGoogle;
+    }
+
+    public List<PedidoDao> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<PedidoDao> pedidos) {
+        this.pedidos = pedidos;
+    }
+
     public List<ReseniaDao> getResenias() {
         return resenias;
     }
@@ -223,10 +233,17 @@ public class UsuarioDao {
 
     @Override
     public String toString() {
-        return "UsuarioDao [idUsuario=" + idUsuario + ", nombreUsuario=" + nombreUsuario + ", telefonoUsuario="
-                + telefonoUsuario + ", fotoUsuario=" + Arrays.toString(fotoUsuario) + ", emailUsuario=" + emailUsuario
-                + ", passwordUsuario=" + passwordUsuario + ", rol=" + rol + ", tokenUsuario=" + tokenUsuario
-                + ", fechaExpiracionToken=" + fechaExpiracionToken + ", pedidos=" + pedidos + ", resenias=" + resenias
-                + "]";
+        return "UsuarioDao [idUsuario=" + idUsuario 
+            + ", nombreUsuario=" + nombreUsuario 
+            + ", telefonoUsuario=" + telefonoUsuario 
+            + ", fotoUsuario=" + Arrays.toString(fotoUsuario) 
+            + ", emailUsuario=" + emailUsuario 
+            + ", passwordUsuario=" + passwordUsuario 
+            + ", rol=" + rol 
+            + ", tokenUsuario=" + tokenUsuario 
+            + ", fechaExpiracionToken=" + fechaExpiracionToken 
+            + ", esGoogle=" + esGoogle 
+            + ", pedidos=" + pedidos 
+            + ", resenias=" + resenias + "]";
     }
 }

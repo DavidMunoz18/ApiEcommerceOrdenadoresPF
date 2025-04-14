@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -145,6 +146,46 @@ public class RecuperarContraseniaControlador {
         } catch (Exception e) {
             Utilidades.escribirLog("ERROR", "RecuperarContraseniaControlador", "obtenerFechaExpiracionToken", "Error al obtener la fecha de expiración del token: " + e.getMessage());
             return ResponseEntity.internalServerError().body(null);
+        }
+    }
+    
+    /**
+     * Endpoint para el login mediante Google.
+     * Se espera que el objeto UsuarioDto contenga, al menos,
+     * el email, el nombre y los datos necesarios para identificar
+     * al usuario autenticado con Google (por ejemplo, la contraseña autogenerada 
+     * y el flag esGoogle en true).
+     * 
+     * @param usuarioDto El DTO con los datos del usuario obtenido a través de Google.
+     * @return ResponseEntity con el usuario autenticado o un mensaje de error.
+     */
+    @PostMapping("/loginGoogle")
+    public ResponseEntity<Object> loginGoogle(@RequestBody UsuarioDto usuarioDto) {
+        String mensaje = "Iniciando login con Google para email: " + usuarioDto.getEmailUsuario();
+        Utilidades.escribirLog("INFO", "LoginControlador", "loginGoogle", mensaje);
+        
+        try {
+            // Llama al método del servicio para verificar o registrar el usuario.
+            UsuarioDto usuarioRetornado = usuarioServicio.loginGoogle(usuarioDto);
+            
+            if (usuarioRetornado == null) {
+                mensaje = "Error al autenticar usuario con Google: " + usuarioDto.getEmailUsuario();
+                Utilidades.escribirLog("INFO", "LoginControlador", "loginGoogle", mensaje);
+                return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST)
+                        .body("Error al autenticar usuario con Google");
+            }
+            
+            mensaje = "Usuario autenticado con Google: " + usuarioDto.getEmailUsuario();
+            Utilidades.escribirLog("INFO", "LoginControlador", "loginGoogle", mensaje);
+            
+            // Se retorna el DTO del usuario autenticado.
+            return ResponseEntity.ok(usuarioRetornado);
+        } catch (Exception e) {
+            mensaje = "Error al procesar login con Google: " + e.getMessage();
+            Utilidades.escribirLog("ERROR", "LoginControlador", "loginGoogle", mensaje);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                    .body("Error interno al autenticar el usuario");
         }
     }
 
