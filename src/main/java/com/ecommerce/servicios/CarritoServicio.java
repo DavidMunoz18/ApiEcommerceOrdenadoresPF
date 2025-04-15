@@ -84,4 +84,22 @@ public class CarritoServicio {
             throw e;
         }
     }
+    
+    /**
+     * Limpia (elimina TODOS los productos) del carrito.
+     * 
+     * @return {@code true} si el carrito se limpió correctamente.
+     */
+    public boolean limpiarCarrito() {
+        Utilidades.escribirLog("[INFO]", "CarritoServicio", "limpiarCarrito", "Iniciando ejecución");
+        try {
+            carrito.clear();
+            Utilidades.escribirLog("[INFO]", "CarritoServicio", "limpiarCarrito", "Carrito limpiado correctamente.");
+            return true;
+        } catch(Exception e) {
+            Utilidades.escribirLog("[ERROR]", "CarritoServicio", "limpiarCarrito", "Error: " + e.getMessage());
+            throw e;
+        }
+    }
+    
 }

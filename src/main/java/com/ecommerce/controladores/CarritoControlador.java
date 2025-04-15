@@ -117,4 +117,27 @@ public class CarritoControlador {
             throw e;
         }
     }
+    /**
+     * Limpia (elimina TODOS los productos) del carrito.
+     *
+     * @param session Sesión HTTP del usuario.
+     * @return ResponseEntity con un mensaje indicando el resultado de la operación.
+     */
+    @DeleteMapping("/limpiar")
+    public ResponseEntity<String> limpiarCarrito(HttpSession session) {
+        Utilidades.escribirLog("[INFO]", "CarritoControlador", "limpiarCarrito", "Iniciando ejecución");
+        try {
+            boolean resultado = carritoServicio.limpiarCarrito();
+            if (resultado) {
+                // También actualizamos el carrito en la sesión para que quede vacío
+                session.setAttribute("carrito", new ArrayList<CarritoDto>());
+                return ResponseEntity.ok("Carrito limpiado correctamente.");
+            } else {
+                return ResponseEntity.badRequest().body("No se pudo limpiar el carrito.");
+            }
+        } catch(Exception e) {
+            Utilidades.escribirLog("[ERROR]", "CarritoControlador", "limpiarCarrito", "Error: " + e.getMessage());
+            throw e;
+        }
+    }
 }
