@@ -2,24 +2,19 @@ package com.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
-/**
- * Clase principal de la aplicación de ecommerce para la venta de ordenadores.
- * Esta clase contiene el método {@code main} que se encarga de iniciar la aplicación
- * Spring Boot.
- * 
- * @author [Dmp]
- */
 @SpringBootApplication
-public class EcommerceApplication {
+public class EcommerceApplication extends SpringBootServletInitializer {
 
-    /**
-     * Método principal que arranca la aplicación Spring Boot.
-     * 
-     * @param args Argumentos de la línea de comandos, no utilizados en esta aplicación.
-     */
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        // Apunta a esta misma clase que lleva @SpringBootApplication
+        return builder.sources(EcommerceApplication.class);
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(EcommerceApplication.class, args);
     }
 }
-  
