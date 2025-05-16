@@ -10,7 +10,7 @@ public class EcommerceApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        // Apunta a esta misma clase que lleva @SpringBootApplication
+        
         return builder.sources(EcommerceApplication.class);
     }
 

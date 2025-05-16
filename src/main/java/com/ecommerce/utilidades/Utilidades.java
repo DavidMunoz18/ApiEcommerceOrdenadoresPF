@@ -8,6 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Clase utilitaria para manejo de logs en archivos.
+ * <p>
+ * Proporciona métodos estáticos para escribir logs en archivos con
+ * nombre basado en la fecha actual y eliminar archivos antiguos
+ * con más de un mes de antigüedad.
+ * </p>
+ * <p>
+ * Los logs se almacenan en la ruta base definida por {@code RUTA_BASE}.
+ * </p>
+ */
 public class Utilidades {
 
     // Ruta base donde se guardarán los archivos de log

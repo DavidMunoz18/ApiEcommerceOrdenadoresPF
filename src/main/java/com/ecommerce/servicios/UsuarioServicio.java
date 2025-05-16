@@ -18,6 +18,17 @@ import com.ecommerce.dtos.UsuarioDto;
 import com.ecommerce.repositorios.UsuarioRepository;
 import com.ecommerce.utilidades.Utilidades;
 
+/**
+ * Servicio para la gestión de usuarios en el sistema.
+ * <p>
+ * Provee métodos para registrar, modificar, obtener y eliminar usuarios,
+ * así como funciones relacionadas con autenticación, tokens y verificación de códigos.
+ * </p>
+ * <p>
+ * Utiliza el repositorio {@link UsuarioRepository} para operaciones con la base de datos.
+ * </p>
+ * 
+ */
 @Service
 public class UsuarioServicio {
 

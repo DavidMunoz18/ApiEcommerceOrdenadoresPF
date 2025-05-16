@@ -3,10 +3,16 @@ package com.ecommerce.servicios;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.ecommerce.dtos.CarritoDto;
 import com.ecommerce.utilidades.Utilidades;
+
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Servicio para la gestión del carrito de compras.
@@ -15,10 +21,11 @@ import com.ecommerce.utilidades.Utilidades;
  * Utiliza la clase {@link Utilidades} para registrar logs de las acciones realizadas.
  */
 @Service
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CarritoServicio {
 
-    // Lista que simula el carrito de compras.
-    private final List<CarritoDto> carrito = new ArrayList<>();
+    @Autowired
+    private HttpSession session;
 
     /**
      * Agrega un producto al carrito.
@@ -32,8 +39,13 @@ public class CarritoServicio {
     public boolean agregarProducto(CarritoDto producto) {
         Utilidades.escribirLog("[INFO]", "CarritoServicio", "agregarProducto", "Iniciando ejecución");
         try {
-            // Se asume que las validaciones se realizaron en la capa de negocio (Dynamic Web)
+            @SuppressWarnings("unchecked")
+            List<CarritoDto> carrito = (List<CarritoDto>) session.getAttribute("carrito");
+            if (carrito == null) {
+                carrito = new ArrayList<>();
+            }
             carrito.add(producto);
+            session.setAttribute("carrito", carrito);
             Utilidades.escribirLog("[INFO]", "CarritoServicio", "agregarProducto", "Producto agregado: " + producto);
             return true;
         } catch (Exception e) {
@@ -53,37 +65,56 @@ public class CarritoServicio {
     public List<CarritoDto> obtenerCarrito() {
         Utilidades.escribirLog("[INFO]", "CarritoServicio", "obtenerCarrito", "Iniciando ejecución");
         try {
+            @SuppressWarnings("unchecked")
+            List<CarritoDto> carrito = (List<CarritoDto>) session.getAttribute("carrito");
+            if (carrito == null) {
+                carrito = new ArrayList<>();
+                session.setAttribute("carrito", carrito);
+            }
             return new ArrayList<>(carrito);
         } catch (Exception e) {
             Utilidades.escribirLog("[ERROR]", "CarritoServicio", "obtenerCarrito", "Error: " + e.getMessage());
             throw e;
         }
-    }
-
-    /**
-     * Elimina un producto del carrito por su ID.
+    } /**
+     * Elimina un producto del carrito del usuario en sesión.
      * 
-     * Este método busca el producto por su ID en la lista del carrito y lo elimina si lo encuentra.
-     * Registra un log con el detalle de la acción, indicando si el producto fue encontrado y eliminado.
+     * Este método busca el producto por su ID en la lista del carrito almacenada
+     * en HttpSession y lo elimina si lo encuentra. Luego vuelve a guardar la lista
+     * en sesión para que la vista JSP refleje el cambio.
      * 
+     * @param session Sesión HTTP del usuario.
      * @param id El ID del producto a eliminar.
      * @return {@code true} si el producto fue eliminado, {@code false} si no se encontró el producto.
      */
-    public boolean eliminarProducto(int id) {
-        Utilidades.escribirLog("[INFO]", "CarritoServicio", "eliminarProducto", "Iniciando ejecución con id: " + id);
+    @SuppressWarnings("unchecked")
+    public boolean eliminarProducto(HttpSession session, long id) {
+        Utilidades.escribirLog("[INFO]", "CarritoServicio", "eliminarProducto",
+                "Iniciando ejecución con id: " + id);
         try {
-            boolean eliminado = carrito.removeIf(producto -> producto.getId() == id);
+            List<CarritoDto> carrito = (List<CarritoDto>) session.getAttribute("carrito");
+            if (carrito == null) {
+                carrito = new ArrayList<>();
+            }
+            boolean eliminado = carrito.removeIf(p -> p.getId() == id);
+            session.setAttribute("carrito", carrito);
+
             if (eliminado) {
-                Utilidades.escribirLog("[INFO]", "CarritoServicio", "eliminarProducto", "Producto eliminado con id: " + id);
+                Utilidades.escribirLog("[INFO]", "CarritoServicio", "eliminarProducto",
+                        "Producto eliminado con id: " + id);
             } else {
-                Utilidades.escribirLog("[ERROR]", "CarritoServicio", "eliminarProducto", "Producto no encontrado con id: " + id);
+                Utilidades.escribirLog("[ERROR]", "CarritoServicio", "eliminarProducto",
+                        "Producto no encontrado con id: " + id);
             }
             return eliminado;
         } catch (Exception e) {
-            Utilidades.escribirLog("[ERROR]", "CarritoServicio", "eliminarProducto", "Error: " + e.getMessage());
+            Utilidades.escribirLog("[ERROR]", "CarritoServicio", "eliminarProducto",
+                    "Error: " + e.getMessage());
             throw e;
         }
     }
+
+   
     
     /**
      * Limpia (elimina TODOS los productos) del carrito.
@@ -93,7 +124,7 @@ public class CarritoServicio {
     public boolean limpiarCarrito() {
         Utilidades.escribirLog("[INFO]", "CarritoServicio", "limpiarCarrito", "Iniciando ejecución");
         try {
-            carrito.clear();
+            session.setAttribute("carrito", new ArrayList<CarritoDto>());
             Utilidades.escribirLog("[INFO]", "CarritoServicio", "limpiarCarrito", "Carrito limpiado correctamente.");
             return true;
         } catch(Exception e) {
@@ -101,5 +132,4 @@ public class CarritoServicio {
             throw e;
         }
     }
-    
 }

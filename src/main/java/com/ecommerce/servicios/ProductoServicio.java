@@ -15,6 +15,10 @@ import com.ecommerce.repositorios.MarcaRepository;
 import com.ecommerce.repositorios.ProductoRepository;
 import com.ecommerce.utilidades.Utilidades;
 
+/**
+ * Servicio para gestionar operaciones relacionadas con productos,
+ * incluyendo creación, actualización, búsqueda y eliminación.
+ */
 @Service
 public class ProductoServicio {
 

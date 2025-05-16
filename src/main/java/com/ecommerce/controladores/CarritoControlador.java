@@ -95,49 +95,51 @@ public class CarritoControlador {
         }
     }
 
+    
     /**
      * Elimina un producto del carrito identificado por su ID.
      *
      * @param id Identificador del producto a eliminar.
+     * @param session Sesión HTTP del usuario.
      * @return ResponseEntity con un mensaje indicando el resultado de la operación.
      */
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<String> eliminarProducto(@PathVariable int id) {
-        Utilidades.escribirLog("[INFO]", "CarritoControlador", "eliminarProducto", "Iniciando ejecución con id: " + id);
+    public ResponseEntity<String> eliminarProducto(
+            @PathVariable int id,
+            HttpSession session) {
+
+        Utilidades.escribirLog("[INFO]", "CarritoControlador", "eliminarProducto",
+                "Iniciando ejecución con id: " + id);
 
         try {
-            boolean resultado = carritoServicio.eliminarProducto(id);
+            boolean resultado = carritoServicio.eliminarProducto(session, id);
             if (resultado) {
                 return ResponseEntity.ok("Producto eliminado del carrito.");
             } else {
                 return ResponseEntity.badRequest().body("No se pudo eliminar el producto del carrito.");
             }
         } catch(Exception e) {
-            Utilidades.escribirLog("[ERROR]", "CarritoControlador", "eliminarProducto", "Error: " + e.getMessage());
+            Utilidades.escribirLog("[ERROR]", "CarritoControlador", "eliminarProducto",
+                    "Error: " + e.getMessage());
             throw e;
         }
     }
+
     /**
-     * Limpia (elimina TODOS los productos) del carrito.
+     * Limpia todos los productos del carrito.
      *
-     * @param session Sesión HTTP del usuario.
      * @return ResponseEntity con un mensaje indicando el resultado de la operación.
      */
     @DeleteMapping("/limpiar")
-    public ResponseEntity<String> limpiarCarrito(HttpSession session) {
+    public ResponseEntity<String> limpiarCarrito() {
         Utilidades.escribirLog("[INFO]", "CarritoControlador", "limpiarCarrito", "Iniciando ejecución");
         try {
-            boolean resultado = carritoServicio.limpiarCarrito();
-            if (resultado) {
-                // También actualizamos el carrito en la sesión para que quede vacío
-                session.setAttribute("carrito", new ArrayList<CarritoDto>());
-                return ResponseEntity.ok("Carrito limpiado correctamente.");
-            } else {
-                return ResponseEntity.badRequest().body("No se pudo limpiar el carrito.");
-            }
+            carritoServicio.limpiarCarrito(); // Se llama al método del servicio que limpia el carrito
+            return ResponseEntity.ok("Carrito limpiado correctamente.");
         } catch(Exception e) {
             Utilidades.escribirLog("[ERROR]", "CarritoControlador", "limpiarCarrito", "Error: " + e.getMessage());
             throw e;
         }
     }
 }
+
